@@ -1,6 +1,6 @@
 package org.ualhmis.oscars;
 
-public class PremosCineApp {
+public class PremiosCineApp {
 	public static void main(String[] args) {
 		// Crear gestor de premios
 		GestorPremios gestorPremios = new GestorPremios();
