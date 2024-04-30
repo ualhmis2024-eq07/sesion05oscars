@@ -4,6 +4,5 @@ package org.ualhmis.oscars;
 class Actriz extends ActorOActriz {
 	public Actriz(String nombre, String sexo, String fechaNacimiento) {
 		super(nombre, sexo, fechaNacimiento);
-
 	}
 }

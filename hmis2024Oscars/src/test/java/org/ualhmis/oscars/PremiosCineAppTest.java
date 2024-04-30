@@ -14,7 +14,7 @@ public class PremiosCineAppTest  {
 		System.setOut(new PrintStream(bos));
 
 		// action
-		PremiosCineApp p = new PremiosCineApp(); // Para llegar al 100%: creacion de objeto y llamada al constructor por defecto 
+		new PremiosCineApp(); // Para llegar al 100%: creacion de objeto y llamada al constructor por defecto 
 		PremiosCineApp.main(null);
 
 		// assertion

@@ -1,21 +1,34 @@
 package org.ualhmis.oscars;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-public class ActorOActrizTest {
-	
-private ActorOActriz actorOActriz;
-	
-	public void constructorActorOActriz() {
-	String nombre = "Leonardo di Caprio";
-	String sexo = "Masculino";
-	String fechaNacimiento = "11/11/1974";
-	
-	
-		ActorOActriz actorOactriz = new ActorOActriz(nombre, sexo, fechaNacimiento);
-		
-		 assertNotNull(actorOActriz);
-	     assertEquals(nombre, actorOActriz.getNombre());
-	     assertEquals(sexo, actorOActriz.getSexo());
-	     assertEquals(fechaNacimiento, actorOActriz.getFechaNacimiento());
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class ActorOActrizTest {
+
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
 	}
+
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
+	}
+
+	@BeforeEach
+	void setUp() throws Exception {
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+	}
+
+	@Test
+	void testActorOActriz() {
+		new ActorOActriz("Kate Winslet", "Femenino", "5/10/1975");
+	}
+
 }
