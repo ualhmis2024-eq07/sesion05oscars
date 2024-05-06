@@ -9,10 +9,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -24,13 +21,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.2.5</version>
+				<version>3.0.0</version>
 				<dependencies>
-					<!-- https://mvnrepository.com/artifact/me.fabriciorby/maven-surefire-junit5-tree-reporter -->
 					<dependency>
-    					<groupId>me.fabriciorby</groupId>
-    					<artifactId>maven-surefire-junit5-tree-reporter</artifactId>
-    					<version>1.2.1</version>
+						<groupId>me.fabriciorby</groupId>
+						<artifactId>maven-surefire-junit5-tree-reporter</artifactId>
+						<version>0.1.0</version>
 					</dependency>
 				</dependencies>
 				<configuration>
@@ -38,12 +34,10 @@
 					<consoleOutputReporter>
 						<disable>true</disable>
 					</consoleOutputReporter>
-					<statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter">
-						<theme>UNICODE</theme>
-					</statelessTestsetInfoReporter>
-<!--					<argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>-->
-						<!-- -Dfile.encoding=UTF-8 necesario para que pasen los tests con UTF-8 -->
-						<!-- @{argLine} necesario para Jacoco !!! -->
+					<statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" />
+					<argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
+					<!--  -Dfile.encoding=UTF-8 necesario para que pasen los tests con UTF-8  -->
+					<!--  @{argLine} necesario para Jacoco !!!  -->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -53,11 +47,11 @@
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
-							<goals>
-								<goal>prepare-agent</goal>
-							</goals>
-						</execution>
-					<!-- attached to Maven test phase -->
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<!--  attached to Maven test phase  -->
 					<execution>
 						<id>report</id>
 						<phase>test</phase>
@@ -65,6 +59,7 @@
 							<goal>report</goal>
 						</goals>
 					</execution>
+					<!--  Add this checking: coverage >= 90%  -->
 					<execution>
 						<id>jacoco-check</id>
 						<goals>
@@ -78,7 +73,7 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.90</minimum>
+											<minimum>0.9</minimum>
 										</limit>
 									</limits>
 								</rule>
@@ -95,44 +90,10 @@
 					<locales>es,en</locales>
 				</configuration>
 			</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.5.0</version>
-				<configuration>
-				<show>private</show>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.10.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.10.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-suite-engine</artifactId>
-			<version>1.10.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.10.2</version>
-		</dependency>
-	</dependencies>
 	<reporting>
-	    <plugins>
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -142,30 +103,29 @@
 				</configuration>
 			</plugin>
 			<plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-checkstyle-plugin</artifactId>
-	            <version>3.1.1</version>
-	        </plugin>
-	
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.1.1</version>
+			</plugin>
 			<plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-jxr-plugin</artifactId>
-	            <version>3.3.0</version>
-	        </plugin>
-	        <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.3.0</version>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>3.20.0</version>
 				<configuration>
-				<linkXref>true</linkXref>
-				<sourceEncoding>utf-8</sourceEncoding>
-				<minimumTokens>100</minimumTokens>
-				<targetJdk>1.8</targetJdk>
-				<skipEmptyReport>false</skipEmptyReport>
-				<rulesets>
-					<ruleset>/rulesets/java/braces.xml</ruleset>
-					<ruleset>/rulesets/java/naming.xml</ruleset>
-				</rulesets>
+					<linkXref>true</linkXref>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<minimumTokens>100</minimumTokens>
+					<targetJdk>1.8</targetJdk>
+					<skipEmptyReport>false</skipEmptyReport>
+					<rulesets>
+						<ruleset>/rulesets/java/braces.xml</ruleset>
+						<ruleset>/rulesets/java/naming.xml</ruleset>
+					</rulesets>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -176,8 +136,8 @@
 					<effort>Max</effort>
 					<threshold>Low</threshold>
 					<failOnError>true</failOnError>
-					<includeFilterFile>${session.executionRootDirectory}/spotbugs-security-include.xml</includeFilterFile>
-					<excludeFilterFile>${session.executionRootDirectory}/spotbugs-security-exclude.xml</excludeFilterFile>
+					<includeFilterFile> ${session.executionRootDirectory}/spotbugs-security-include.xml</includeFilterFile>
+					<excludeFilterFile> ${session.executionRootDirectory}/spotbugs-security-exclude.xml</excludeFilterFile>
 					<plugins>
 						<plugin>
 							<groupId>com.h3xstream.findsecbugs</groupId>
@@ -187,6 +147,119 @@
 					</plugins>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.5.0</version>
+				<configuration>
+					<!--  <show>private</show>  -->
+					<!--  <reportOutputDirectory>
+		  	${project.reporting.outputDirectory}/../../docs
+		  </reportOutputDirectory>  -->
+					<doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
+					<docletArtifact>
+						<groupId>nl.talsmasoftware</groupId>
+						<artifactId>umldoclet</artifactId>
+						<version>2.1.0</version>
+					</docletArtifact>
+					<additionalOptions>
+						<!--  -umlImageFormat (svg | svg_img | png | eps | none)  -->
+						<!--  <additionalOption>-umlImageFormat
+						svg_img,png</additionalOption>  -->
+						<additionalOption>-umlImageFormat svg_img</additionalOption>
+						<additionalOption>-private</additionalOption>
+						<!-- 
+						<additionalOption>-createPumlFiles</additionalOption>  -->
+						<additionalOption>-umlExcludedTypeReferences</additionalOption>
+						<!-- 
+						añade metodos toString() y equals()  -->
+						<!-- 
+						<additionalOption>-umlJavaBeanPropertiesAsFields</additionalOption>  -->
+						<!--  <additionalOption>-umlCustomDirective "skinparam
+						classBackgroundColor
+					LightYellow"</additionalOption>  -->
+					</additionalOptions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>8.2.1</version>
+				<configuration>
+					<skipTestScope>false</skipTestScope>
+					<formats>
+						<format>HTML</format>
+						<format>XML</format>
+					</formats>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
 		</plugins>
-  </reporting>
+	</reporting>
+	<dependencies>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.10.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.10.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite-engine</artifactId>
+			<version>1.10.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>5.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>nl.talsmasoftware</groupId>
+			<artifactId>umldoclet</artifactId>
+			<version>2.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<!--  Examples of vulnerable dependencies  -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.0</version>
+		</dependency>
+		<!--  <dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections3</artifactId>
+			<version>3.2.2</version>
+		</dependency>  -->
+		<!-- 
+		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core  -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+	</dependencies>
 </project>
