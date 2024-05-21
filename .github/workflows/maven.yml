@@ -43,13 +43,16 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+        
     - name: Run tests and package
       run: mvn -f hmis2024Oscars/pom.xml clean package
-  
-    - name: Update dependency graph
-      run: mvn -f hmis2024Oscars/pom.xml com.github.ferstl:depgraph-maven-plugin:4.0.1:graph
-    - name: Save dependency graph as artifact
+      
+    - name: Run Jacoco and generate code coverage report
+      run: mvn clean verify
+
+    - name: Save Jacoco coverage report as artifact
       uses: actions/upload-artifact@v2
       with:
-        name: dependency-graph
-        path: target/dependency-graph.svg
+        name: jacoco-report
+        path: target/site/jacoco
+
