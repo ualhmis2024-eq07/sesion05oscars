@@ -48,3 +48,8 @@ jobs:
   
     - name: Update dependency graph
       run: mvn -f hmis2024Oscars/pom.xml com.github.ferstl:depgraph-maven-plugin:4.0.1:graph
+    - name: Save dependency graph as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: dependency-graph
+        path: target/dependency-graph.svg
