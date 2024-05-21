@@ -51,5 +51,6 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: jacoco-report
+        run: ls
         path: target/site/jacoco/
 
