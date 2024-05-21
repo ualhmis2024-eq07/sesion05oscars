@@ -15,21 +15,36 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  install-dependencies:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Set up JDK 17 and install dependencies
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Install dependencies
+      run: mvn -f hmis2024Oscars/pom.xml clean dependency:go-offline
+
+  run-tests:
+    runs-on: ubuntu-latest
+    needs: install-dependencies
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn -f hmis2024Oscars/pom.xml clean package site
-
-    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
+    - name: Run tests and package
+      run: mvn -f hmis2024Oscars/pom.xml package
+  
     - name: Update dependency graph
       run: mvn -f hmis2024Oscars/pom.xml com.github.ferstl:depgraph-maven-plugin:4.0.1:graph
