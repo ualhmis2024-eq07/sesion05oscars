@@ -44,7 +44,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Run tests and package
-      run: mvn -f hmis2024Oscars/pom.xml package
+      run: mvn -f hmis2024Oscars/pom.xml clean package
   
     - name: Update dependency graph
       run: mvn -f hmis2024Oscars/pom.xml com.github.ferstl:depgraph-maven-plugin:4.0.1:graph
