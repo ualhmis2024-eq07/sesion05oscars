@@ -47,8 +47,10 @@ jobs:
       - name: Run tests and package
         run: mvn -f hmis2024Oscars/pom.xml clean package
 
-      - name: List files in the working directory
-        run: ls
+      - name: List directories
+        run: |
+          echo "Listing directories in the project:"
+          find . -type d
 
       - name: Save Jacoco coverage report as artifact
         uses: actions/upload-artifact@v2
