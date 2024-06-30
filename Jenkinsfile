@@ -57,7 +57,7 @@ pipeline {
             post{
                 success {
                 step $class: 'JavadocArchiver', javadocDir: 'hmis2024Oscars/target/site/apidocs', keepAll: false
-                publishHTML(target: [reportName: 'Maven Site', reportDir: 'hmis2024Oscars/target/site/es', reportFiles: 'index.html', keepAll: false])
+                publishHTML(target: [reportName: 'Maven Site', reportDir: 'hmis2024Oscars/target/apidocs', reportFiles: 'index.html', keepAll: false])
             }
         }
     }
