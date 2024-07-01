@@ -15,13 +15,13 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
 				<configuration>
-					<release>17</release>
+					<release>11</release>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.0.0-M4</version>
 				<dependencies>
 					<dependency>
 						<groupId>me.fabriciorby</groupId>
@@ -34,9 +34,11 @@
 					<consoleOutputReporter>
 						<disable>true</disable>
 					</consoleOutputReporter>
-					<statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" />
+					<!-- statelessTestsetInfoReporter
+						implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" / -->
 					<argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
-					<!--  -Dfile.encoding=UTF-8 necesario para que pasen los tests con UTF-8  -->
+					<!--  -Dfile.encoding=UTF-8 necesario para que pasen los
+					tests con UTF-8  -->
 					<!--  @{argLine} necesario para Jacoco !!!  -->
 				</configuration>
 			</plugin>
@@ -90,6 +92,45 @@
 					<locales>es,en</locales>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.9.0.2155</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.5.0</version>
+				<configuration>
+					<show>private</show>
+					<!--  <reportOutputDirectory>
+		  	${project.reporting.outputDirectory}/../../docs
+		  </reportOutputDirectory>  -->
+					<doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
+					<docletArtifact>
+						<groupId>nl.talsmasoftware</groupId>
+						<artifactId>umldoclet</artifactId>
+						<version>2.1.0</version>
+					</docletArtifact>
+					<additionalOptions>
+						<!--  -umlImageFormat (svg | svg_img | png | eps | none)  -->
+						<!--  <additionalOption>-umlImageFormat
+						svg_img,png</additionalOption>  -->
+						<additionalOption>-umlImageFormat svg_img</additionalOption>
+						<additionalOption>-private</additionalOption>
+						<!-- 
+						<additionalOption>-createPumlFiles</additionalOption>  -->
+						<additionalOption>-umlExcludedTypeReferences</additionalOption>
+						<!-- 
+						añade metodos toString() y equals()  -->
+						<!-- 
+						<additionalOption>-umlJavaBeanPropertiesAsFields</additionalOption>  -->
+						<!--  <additionalOption>-umlCustomDirective "skinparam
+						classBackgroundColor
+					LightYellow"</additionalOption>  -->
+					</additionalOptions>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<reporting>
@@ -104,13 +145,20 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.1.1</version>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.3.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>3.3.0</version>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.1.2</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>checkstyle</report>
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -152,7 +200,7 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.5.0</version>
 				<configuration>
-					<!--  <show>private</show>  -->
+					<show>private</show>
 					<!--  <reportOutputDirectory>
 		  	${project.reporting.outputDirectory}/../../docs
 		  </reportOutputDirectory>  -->
@@ -203,57 +251,60 @@
 		</plugins>
 	</reporting>
 	<dependencies>
+		<!-- 
+		https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine  -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.10.0</version>
+			<version>5.10.2</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- 
+		https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api  -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.10.0</version>
+			<version>5.10.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-suite-engine</artifactId>
-			<version>1.10.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.opencsv</groupId>
-			<artifactId>opencsv</artifactId>
-			<version>5.6</version>
-		</dependency>
+		<!-- 
+		https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params  -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.10.0</version>
+			<version>5.10.2</version>
+			<scope>test</scope>
 		</dependency>
+		<!-- 
+		https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner  -->
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<version>1.7.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!--  https://mvnrepository.com/artifact/nl.talsmasoftware/umldoclet  -->
 		<dependency>
 			<groupId>nl.talsmasoftware</groupId>
 			<artifactId>umldoclet</artifactId>
 			<version>2.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<!--  Examples of vulnerable dependencies  -->
+		<!--  Example of vulnerable dependency  -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<!--  Example of vulnerable dependency  -->
+		<!-- 
+		https://mvnrepository.com/artifact/org.apache.commons/commons-collections4  -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
 			<version>4.0</version>
 		</dependency>
-		<!--  <dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-collections3</artifactId>
-			<version>3.2.2</version>
-		</dependency>  -->
 		<!-- 
 		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core  -->
 		<dependency>
